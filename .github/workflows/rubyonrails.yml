@@ -2,7 +2,7 @@ name: Rails CI
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: ["main", "develop"]
   pull_request:
 
 jobs:
@@ -12,29 +12,34 @@ jobs:
     services:
       postgres:
         image: postgres:14
-        ports: [ "5432:5432" ]
+        ports: ["5432:5432"]
         env:
-          POSTGRES_USER: shyam
-          POSTGRES_PASSWORD: shyam
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
         options: >-
-          --health-cmd="pg_isready -U shyam"
+          --health-cmd="pg_isready -U postgres"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
     env:
       RAILS_ENV: test
-      DATABASE_URL: postgres://shyam:shyam@localhost:5432/react_rails_test
+      DATABASE_URL: postgres://postgres:password@localhost:5432/react_rails_test
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ✅ Ruby setup (FIXED)
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.0
+          bundler: latest        # 🔥 IMPORTANT FIX
           bundler-cache: true
+
+      - name: Update Bundler
+        run: gem install bundler
 
       - name: Install Ruby dependencies
         run: bundle install
@@ -42,7 +47,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24.0.0
+          node-version: 18
           cache: "npm"
 
       - name: Install Node modules
@@ -54,5 +59,7 @@ jobs:
       - name: Setup DB
         run: |
           bundle exec rails db:create
-          bundle exec rails db:migrate
           bundle exec rails db:schema:load
+
+      - name: Run Rails tests
+        run: bundle exec rails test
