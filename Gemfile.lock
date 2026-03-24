@@ -145,8 +145,22 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.17.2-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.17.2-arm-linux)
+      racc (~> 1.4)
+    nokogiri (1.17.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.17.2-x86-linux)
+      racc (~> 1.4)
+    nokogiri (1.17.2-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
+    pg (1.6.3)
+    pg (1.6.3-aarch64-linux)
+    pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pp (0.6.3)
       prettyprint
@@ -241,6 +255,11 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
+  aarch64-linux
+  arm-linux
+  arm64-darwin
+  x86-linux
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
@@ -263,4 +282,4 @@ RUBY VERSION
    ruby 3.0.0p0
 
 BUNDLED WITH
-   2.2.3
+   2.5.23
