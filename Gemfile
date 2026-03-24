@@ -71,4 +71,4 @@ group :test do
 end
 
 
-gem "tsort"
+gem "tsort", "~> 0.1.0"
