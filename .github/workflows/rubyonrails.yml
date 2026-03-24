@@ -35,8 +35,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.0
-          bundler: '2.6.0'        # 🔥 IMPORTANT FIX
           bundler-cache: true
+
+      - name: Update Bundler
+        run: gem update bundler
 
       - name: Install Ruby dependencies
         run: bundle install
