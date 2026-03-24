@@ -1,0 +1,55 @@
+name: Rails CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        ports: [ "5432:5432" ]
+        env:
+          POSTGRES_USER: shyam
+          POSTGRES_PASSWORD: shyam
+        options: >-
+          --health-cmd="pg_isready -U shyam"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://shyam:shyam@localhost:5432/react_rails_test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0
+          bundler-cache: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.0.0
+          cache: "npm"
+
+      - name: Install Node modules
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Setup DB
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+          bundle exec rails db:schema:load
