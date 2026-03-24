@@ -38,9 +38,6 @@ jobs:
           bundler: latest        # 🔥 IMPORTANT FIX
           bundler-cache: true
 
-      - name: Update Bundler
-        run: gem install bundler
-
       - name: Install Ruby dependencies
         run: bundle install
 
